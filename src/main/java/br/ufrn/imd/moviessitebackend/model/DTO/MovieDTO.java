@@ -1,6 +1,10 @@
 package br.ufrn.imd.moviessitebackend.model.DTO;
 
+import java.util.UUID;
+
 public class MovieDTO {
+
+    private String id;
     private String title;
     private String genre;
     private String exibitionDate;
@@ -11,6 +15,7 @@ public class MovieDTO {
         this.genre = genre;
         this.exibitionDate = exibitionDate;
         this.channel = channel;
+        this.id = UUID.randomUUID().toString();
     }
 
     public String getTitle() {
@@ -43,5 +48,13 @@ public class MovieDTO {
 
     public void setChannel(String channel) {
         this.channel = channel;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

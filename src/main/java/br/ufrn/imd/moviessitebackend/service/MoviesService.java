@@ -8,14 +8,15 @@ import java.util.ArrayList;
 @Service
 public class MoviesService {
 
+    ArrayList<MovieDTO> movies = new ArrayList<MovieDTO>();
+
     public ArrayList<MovieDTO> getAllMovies(){
-        //create example movies
-        ArrayList<MovieDTO> movies = new ArrayList<>();
-        movies.add(new MovieDTO("The Shawshank Redemption", "Drama", "1994", "HBO"));
-        movies.add(new MovieDTO("The Godfather", "Drama", "1972", "HBO"));
-        movies.add(new MovieDTO("The Godfather: Part II", "Drama", "1974", "HBO"));
-        movies.add(new MovieDTO("The Dark Knight", "Action", "2008", "HBO"));
         return movies;
+    }
+
+    //while there's no integration, remove later
+    public void addMovie(MovieDTO movie){
+        movies.add(movie);
     }
 
 }
