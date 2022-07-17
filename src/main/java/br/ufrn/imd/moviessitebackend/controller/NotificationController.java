@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @RestController
 public class NotificationController {
@@ -26,8 +27,18 @@ public class NotificationController {
     }
 
     @PostMapping("/notify")
-    public ResponseEntity<String> addNotification(MovieDTO movie) {
-        notificationService.addNotification(movie);
+    public ResponseEntity<String> addNotification(@RequestHeader @RequestBody @RequestAttribute Object orionNotification) {
+        //print all information from the object
+        System.out.println("will show the content of the notification");
+        System.out.println(orionNotification);
+        System.out.println(orionNotification.getClass());
+        System.out.println(Arrays.toString(orionNotification.getClass().getDeclaredFields()));
+        System.out.println(Arrays.toString(orionNotification.getClass().getDeclaredMethods()));
+        System.out.println(Arrays.toString(orionNotification.getClass().getDeclaredConstructors()));
+        System.out.println(Arrays.toString(orionNotification.getClass().getDeclaredClasses()));
+        System.out.println(Arrays.toString(orionNotification.getClass().getDeclaredAnnotations()));
+        System.out.println("end of informations");
+
         return ResponseEntity.ok("Notification received");
     }
 }
