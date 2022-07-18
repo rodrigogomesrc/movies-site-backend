@@ -1,7 +1,11 @@
 package br.ufrn.imd.moviessitebackend.controller;
 
 import br.ufrn.imd.moviessitebackend.model.DTO.MovieDTO;
+import br.ufrn.imd.moviessitebackend.model.orion.OrionNotification;
 import br.ufrn.imd.moviessitebackend.service.NotificationService;
+import com.fasterxml.jackson.core.JsonFactory;
+import com.google.gson.Gson;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,17 +31,14 @@ public class NotificationController {
     }
 
     @PostMapping("/notify")
-    public ResponseEntity<String> addNotification(@RequestHeader @RequestBody @RequestAttribute Object orionNotification) {
-        //print all information from the object
-        System.out.println("will show the content of the notification");
-        System.out.println(orionNotification);
-        System.out.println(orionNotification.getClass());
-        System.out.println(Arrays.toString(orionNotification.getClass().getDeclaredFields()));
-        System.out.println(Arrays.toString(orionNotification.getClass().getDeclaredMethods()));
-        System.out.println(Arrays.toString(orionNotification.getClass().getDeclaredConstructors()));
-        System.out.println(Arrays.toString(orionNotification.getClass().getDeclaredClasses()));
-        System.out.println(Arrays.toString(orionNotification.getClass().getDeclaredAnnotations()));
-        System.out.println("end of informations");
+    public ResponseEntity<String> addNotification(@RequestHeader @RequestBody @RequestAttribute String orionNotification) {
+        Gson gson = new Gson();
+        OrionNotification orionNotificationObject = gson.fromJson(orionNotification, OrionNotification.class);
+        String movieId = orionNotificationObject.getContextResponses().get(0).getContextElement().getId();
+        String movieExibitionDate = orionNotificationObject.getContextResponses().get(0).getContextElement().getAttributes().get(2).getValue();
+        String movieGenre = orionNotificationObject.getContextResponses().get(0).getContextElement().getAttributes().get(1).getValue();
+        String movieTitle = orionNotificationObject.getContextResponses().get(0).getContextElement().getAttributes().get(0).getValue();
+
 
         return ResponseEntity.ok("Notification received");
     }
