@@ -16,21 +16,21 @@ public class SubscriptionController {
     @Autowired
     private SubscriptionService subscriptionService;
 
-    @PostMapping("/subscribe/{genre}")
-    public ResponseEntity<String> addSubscription(@PathVariable("genre") String genre) {
-        subscriptionService.addSubscription(genre);
+    @PostMapping("/subscribe/{genre}/{user}")
+    public ResponseEntity<String> addSubscription(@PathVariable("genre") String genre, @PathVariable("user") String user) {
+        subscriptionService.addSubscription(genre, user);
         return ResponseEntity.ok("Subscription added");
     }
 
-    @GetMapping("/unsubscribe/{genre}")
-    public ResponseEntity<String> removeSubscription(@PathVariable("genre") String genre) {
-        subscriptionService.removeSubscription(genre);
+    @GetMapping("/unsubscribe/{genre}/{user}")
+    public ResponseEntity<String> removeSubscription(@PathVariable("genre") String genre, @PathVariable("user") String user) {
+        subscriptionService.removeSubscription(genre, user);
         return ResponseEntity.ok("Subscription removed");
     }
 
-    @GetMapping("/subscriptions")
-    public ArrayList<String> getSubscriptions() {
-        return subscriptionService.getSubscriptions();
+    @GetMapping("/subscriptions/{user}")
+    public ArrayList<String> getSubscriptions(@PathVariable("user") String user) {
+        return subscriptionService.getSubscriptions(user);
     }
 
 }
