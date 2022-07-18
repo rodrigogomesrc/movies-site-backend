@@ -2,7 +2,6 @@ package br.ufrn.imd.moviessitebackend.service;
 
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -10,33 +9,37 @@ import java.util.HashMap;
 public class SubscriptionService {
 
 
-    HashMap<String, ArrayList<String>> subscriptionsByUser = new HashMap<String, ArrayList<String>>();
+    HashMap<String, ArrayList<String>> subscriptionsByGenre = new HashMap<>();
 
     public void addSubscription(String genre, String user) {
-        if (subscriptionsByUser.containsKey(genre)) {
-            subscriptionsByUser.get(genre).add(user);
+        if (subscriptionsByGenre.containsKey(genre)) {
+            subscriptionsByGenre.get(genre).add(user);
         } else {
             ArrayList<String> users = new ArrayList<String>();
             users.add(user);
-            subscriptionsByUser.put(genre, users);
+            subscriptionsByGenre.put(genre, users);
         }
 
     }
 
     public void removeSubscription(String genre, String user) {
-        if (subscriptionsByUser.containsKey(genre)) {
-            subscriptionsByUser.get(genre).remove(user);
+        if (subscriptionsByGenre.containsKey(genre)) {
+            subscriptionsByGenre.get(genre).remove(user);
         }
     }
 
     public ArrayList<String> getSubscriptions(String user) {
         ArrayList<String> subscriptions = new ArrayList<String>();
-        for (String genre : subscriptionsByUser.keySet()) {
-            if (subscriptionsByUser.get(genre).contains(user)) {
+        for (String genre : subscriptionsByGenre.keySet()) {
+            if (subscriptionsByGenre.get(genre).contains(user)) {
                 subscriptions.add(genre);
             }
         }
         return subscriptions;
+    }
+
+    public ArrayList<String> getSubscriptionsByGenre(String genre) {
+        return subscriptionsByGenre.containsKey(genre) ? subscriptionsByGenre.get(genre) : new ArrayList<>();
     }
 
 }

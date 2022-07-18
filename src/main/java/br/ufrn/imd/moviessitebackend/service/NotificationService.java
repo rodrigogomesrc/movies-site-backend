@@ -1,6 +1,7 @@
 package br.ufrn.imd.moviessitebackend.service;
 
 import br.ufrn.imd.moviessitebackend.model.DTO.MovieDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -9,10 +10,12 @@ import java.util.HashMap;
 @Service
 public class NotificationService {
 
-    ArrayList<MovieDTO> notifications = new ArrayList<MovieDTO>();
-    HashMap<String, ArrayList<MovieDTO>> notificationsByUser = new HashMap<String, ArrayList<MovieDTO>>();
+    @Autowired
+    private SubscriptionService subscriptionService;
 
-    public void addNotification(MovieDTO movie, String user) {
+    HashMap<String, ArrayList<MovieDTO>> notificationsByUser = new HashMap<>();
+
+    private void addNotification(MovieDTO movie, String user) {
         if (notificationsByUser.containsKey(user)) {
             notificationsByUser.get(user).add(movie);
         } else {
@@ -35,5 +38,15 @@ public class NotificationService {
             } else {
                 return new ArrayList<MovieDTO>();
             }
+    }
+
+    public void receiveNotification(MovieDTO movie) {
+        //check the genre of the movie from notification and add to the user based on their genre subscription
+        String movieGenre = movie.getGenre();
+        ArrayList<String> userSubscribedToGenre = subscriptionService.getSubscriptionsByGenre(movieGenre);
+        for (String subscribed: userSubscribedToGenre) {
+            addNotification(movie, subscribed);
+        }
+
     }
 }
