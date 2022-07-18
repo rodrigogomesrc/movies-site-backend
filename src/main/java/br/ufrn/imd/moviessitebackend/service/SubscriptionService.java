@@ -8,10 +8,10 @@ import java.util.HashMap;
 @Service
 public class SubscriptionService {
 
-
     HashMap<String, ArrayList<String>> subscriptionsByGenre = new HashMap<>();
 
     public void addSubscription(String genre, String user) {
+
         if (subscriptionsByGenre.containsKey(genre)) {
             subscriptionsByGenre.get(genre).add(user);
         } else {
@@ -29,7 +29,7 @@ public class SubscriptionService {
     }
 
     public ArrayList<String> getSubscriptions(String user) {
-        ArrayList<String> subscriptions = new ArrayList<String>();
+        ArrayList<String> subscriptions = new ArrayList<>();
         for (String genre : subscriptionsByGenre.keySet()) {
             if (subscriptionsByGenre.get(genre).contains(user)) {
                 subscriptions.add(genre);

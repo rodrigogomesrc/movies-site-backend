@@ -27,9 +27,21 @@ public class NotificationService {
     }
 
     public void removeNotification(String id, String user) {
-        if (notificationsByUser.containsKey(user)) {
-            notificationsByUser.get(user).remove(id);
+        MovieDTO notificadedMovie = getNotification(user, id);
+        if(notificadedMovie != null) {
+            if (notificationsByUser.containsKey(user)) {
+                notificationsByUser.get(user).remove(notificadedMovie);
+            }
         }
+    }
+
+    public MovieDTO getNotification(String user, String id){
+        for (MovieDTO movie : notificationsByUser.get(user)) {
+            if (movie.getId().equals(id)) {
+                return movie;
+            }
+        }
+        return null;
     }
 
     public ArrayList<MovieDTO> getNotifications(String user) {
@@ -41,10 +53,9 @@ public class NotificationService {
     }
 
     public void receiveNotification(MovieDTO movie) {
-        //check the genre of the movie from notification and add to the user based on their genre subscription
         String movieGenre = movie.getGenre();
-        ArrayList<String> userSubscribedToGenre = subscriptionService.getSubscriptionsByGenre(movieGenre);
-        for (String subscribed: userSubscribedToGenre) {
+        ArrayList<String> usersSubscribedToGenre = subscriptionService.getSubscriptionsByGenre(movieGenre);
+        for (String subscribed: usersSubscribedToGenre) {
             addNotification(movie, subscribed);
         }
 

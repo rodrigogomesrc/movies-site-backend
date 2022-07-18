@@ -38,7 +38,9 @@ public class NotificationController {
         String movieExibitionDate = orionNotificationObject.getContextResponses().get(0).getContextElement().getAttributes().get(2).getValue();
         String movieGenre = orionNotificationObject.getContextResponses().get(0).getContextElement().getAttributes().get(1).getValue();
         String movieTitle = orionNotificationObject.getContextResponses().get(0).getContextElement().getAttributes().get(0).getValue();
-        MovieDTO movie = new MovieDTO(movieId, movieTitle, movieGenre, movieExibitionDate);
+        String movieChannel = orionNotificationObject.getContextResponses().get(0).getContextElement().getAttributes().get(3).getValue();
+
+        MovieDTO movie = new MovieDTO(movieTitle, movieGenre, movieExibitionDate, movieChannel);
         notificationService.receiveNotification(movie);
         return ResponseEntity.ok("Notification received");
     }
