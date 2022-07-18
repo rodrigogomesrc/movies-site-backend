@@ -21,22 +21,23 @@ public class DataLoader {
     @Autowired
     private MoviesService moviesService;
 
-    @EventListener(ApplicationReadyEvent.class)
-    public void createData(){
-        //create fake data
-        subscriptionService.addSubscription("Drama");
-
-        moviesService.addMovie(new MovieDTO("The Shawshank Redemption", "Drama", "1994", "HBO"));
-        moviesService.addMovie(new MovieDTO("The Godfather", "Drama", "1972", "HBO"));
-        moviesService.addMovie(new MovieDTO("The Godfather: Part II", "Drama", "1974", "HBO"));
-        moviesService.addMovie(new MovieDTO("The Dark Knight", "Action", "2008", "HBO"));
-
-        notificationService.addNotification(new MovieDTO("The Shawshank Redemption", "Drama", "1994", "HBO"));
-        notificationService.addNotification(new MovieDTO("The Godfather", "Drama", "1972", "HBO"));
-        notificationService.addNotification(new MovieDTO("The Godfather: Part II", "Drama", "1974", "HBO"));
-        notificationService.addNotification(new MovieDTO("The Shawshank Redemption", "Drama", "1994", "HBO"));
-        notificationService.addNotification(new MovieDTO("The Godfather", "Drama", "1972", "HBO"));
-        notificationService.addNotification(new MovieDTO("The Godfather: Part II", "Drama", "1974", "HBO"));
-
-    }
+//    @EventListener(ApplicationReadyEvent.class)
+//    public void createData(){
+//
+//        //create fake data
+//        subscriptionService.addSubscription("Drama");
+//
+//        moviesService.addMovie(new MovieDTO("The Shawshank Redemption", "Drama", "1994", "HBO"));
+//        moviesService.addMovie(new MovieDTO("The Godfather", "Drama", "1972", "HBO"));
+//        moviesService.addMovie(new MovieDTO("The Godfather: Part II", "Drama", "1974", "HBO"));
+//        moviesService.addMovie(new MovieDTO("The Dark Knight", "Action", "2008", "HBO"));
+//
+//        notificationService.addNotification(new MovieDTO("The Shawshank Redemption", "Drama", "1994", "HBO"));
+//        notificationService.addNotification(new MovieDTO("The Godfather", "Drama", "1972", "HBO"));
+//        notificationService.addNotification(new MovieDTO("The Godfather: Part II", "Drama", "1974", "HBO"));
+//        notificationService.addNotification(new MovieDTO("The Shawshank Redemption", "Drama", "1994", "HBO"));
+//        notificationService.addNotification(new MovieDTO("The Godfather", "Drama", "1972", "HBO"));
+//        notificationService.addNotification(new MovieDTO("The Godfather: Part II", "Drama", "1974", "HBO"));
+//
+//    }
 }
