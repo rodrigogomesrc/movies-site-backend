@@ -9,7 +9,9 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -43,5 +45,11 @@ public class NotificationController {
         MovieDTO movie = new MovieDTO(movieTitle, movieGenre, movieExibitionDate, movieChannel);
         notificationService.receiveNotification(movie);
         return ResponseEntity.ok("Notification received");
+    }
+
+    @GetMapping("/subscribe/{user}")
+    public SseEmitter subscribe(@PathVariable("user") String user, HttpServletResponse response) {
+        response.setHeader("Cache-Control", "no-store");
+        return notificationService.createEmitter(user);
     }
 }

@@ -3,7 +3,9 @@ package br.ufrn.imd.moviessitebackend.service;
 import br.ufrn.imd.moviessitebackend.model.DTO.MovieDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,6 +14,8 @@ public class NotificationService {
 
     @Autowired
     private SubscriptionService subscriptionService;
+
+    HashMap<String, SseEmitter> subscriptions = new HashMap<>();
 
     HashMap<String, ArrayList<MovieDTO>> notificationsByUser = new HashMap<>();
 
@@ -58,6 +62,27 @@ public class NotificationService {
         for (String subscribed: usersSubscribedToGenre) {
             addNotification(movie, subscribed);
         }
+    }
 
+    public SseEmitter createEmitter (String user) {
+        SseEmitter emitter = subscriptions.get(user);
+        subscriptions.put(user, emitter);
+        emitter.onCompletion(() -> subscriptions.remove(user));
+        emitter.onTimeout(() -> subscriptions.remove(user));
+        emitter.onError((throwable) -> subscriptions.remove(user));
+        return emitter;
+    }
+
+    public void sendNotifications(String user) {
+        if (notificationsByUser.containsKey(user)) {
+            for (MovieDTO movie : notificationsByUser.get(user)) {
+                try {
+                    subscriptions.get(user).send(movie);
+                } catch (IOException e) {
+                    subscriptions.remove(user);
+                }
+            }
+            notificationsByUser.get(user).clear();
+        }
     }
 }
