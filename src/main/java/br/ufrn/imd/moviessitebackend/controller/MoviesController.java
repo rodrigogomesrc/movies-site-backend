@@ -16,7 +16,7 @@ public class MoviesController {
     private MoviesService moviesService;
 
     @GetMapping("/movies")
-    public List<MovieDTO> getAllMovies() {
+    public MovieDTO[] getAllMovies() {
         return moviesService.getAllMovies();
     }
 }

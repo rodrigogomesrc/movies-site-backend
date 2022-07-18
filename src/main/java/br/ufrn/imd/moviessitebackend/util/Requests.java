@@ -1,26 +1,20 @@
 package br.ufrn.imd.moviessitebackend.util;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import org.apache.http.client.config.CookieSpecs;
 import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.util.EntityUtils;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 
 import static org.apache.http.impl.client.HttpClients.createDefault;
 
-public class PersistenceBackRequests {
-    public static final String ENDPOINT = "http://127.0.0.1:9001" ;
+public class Requests {
 
-    public static String getString(String context) {
+    public static String getString(String endpoint) {
         CloseableHttpClient httpClient = createDefault();
-        HttpGet httpGet = new HttpGet(ENDPOINT + context);
+        HttpGet httpGet = new HttpGet(endpoint);
         RequestConfig requestConfig = RequestConfig.custom()
                 .setCookieSpec(CookieSpecs.STANDARD)
                 .build();

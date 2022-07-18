@@ -19,14 +19,14 @@ public class NotificationController {
     @Autowired
     private NotificationService notificationService;
 
-    @GetMapping("/notifications")
-    public ArrayList<MovieDTO> getNotifications() {
-        return notificationService.getNotifications();
+    @GetMapping("/notifications/{user}")
+    public ArrayList<MovieDTO> getNotifications(@PathVariable("user") String user) {
+        return notificationService.getNotifications(user);
     }
 
-    @DeleteMapping("/notification/{id}")
-    public ResponseEntity<String> removeNotification(@PathVariable("id") String id) {
-        notificationService.removeNotification(id);
+    @DeleteMapping("/notification/{id}/{user}")
+    public ResponseEntity<String> removeNotification(@PathVariable("id") String id, @PathVariable("user") String user) {
+        notificationService.removeNotification(id, user);
         return ResponseEntity.ok("Notification removed");
     }
 
@@ -38,7 +38,6 @@ public class NotificationController {
         String movieExibitionDate = orionNotificationObject.getContextResponses().get(0).getContextElement().getAttributes().get(2).getValue();
         String movieGenre = orionNotificationObject.getContextResponses().get(0).getContextElement().getAttributes().get(1).getValue();
         String movieTitle = orionNotificationObject.getContextResponses().get(0).getContextElement().getAttributes().get(0).getValue();
-
 
         return ResponseEntity.ok("Notification received");
     }
