@@ -23,6 +23,7 @@ public class NotificationController {
 
     @GetMapping("/notifications/{user}")
     public ArrayList<MovieDTO> getNotifications(@PathVariable("user") String user) {
+        System.out.println("route to get notifications for user " + user);
         return notificationService.getNotifications(user);
     }
 

@@ -20,8 +20,11 @@ public class NotificationService {
     HashMap<String, ArrayList<MovieDTO>> notificationsByUser = new HashMap<>();
 
     private void addNotification(MovieDTO movie, String user) {
+        System.out.println("Adding notification for user " + user);
         if (notificationsByUser.containsKey(user)) {
+            System.out.println("notificationAdded");
             notificationsByUser.get(user).add(movie);
+            System.out.println(notificationsByUser.get(user).get(0).getTitle());
         } else {
             ArrayList<MovieDTO> movies = new ArrayList<MovieDTO>();
             movies.add(movie);
@@ -40,8 +43,10 @@ public class NotificationService {
     }
 
     public MovieDTO getNotification(String user, String id){
+        System.out.println("Getting notification for user " + user);
         for (MovieDTO movie : notificationsByUser.get(user)) {
             if (movie.getId().equals(id)) {
+                System.out.println("notificationFound");
                 return movie;
             }
         }
@@ -49,7 +54,9 @@ public class NotificationService {
     }
 
     public ArrayList<MovieDTO> getNotifications(String user) {
+        System.out.println("Getting notifications for user " + user);
            if (notificationsByUser.containsKey(user)) {
+               System.out.println(" user Found");
                 return notificationsByUser.get(user);
             } else {
                 return new ArrayList<MovieDTO>();
@@ -61,11 +68,12 @@ public class NotificationService {
         ArrayList<String> usersSubscribedToGenre = subscriptionService.getSubscriptionsByGenre(movieGenre);
         for (String subscribed: usersSubscribedToGenre) {
             addNotification(movie, subscribed);
+            sendNotifications(subscribed);
         }
     }
 
     public SseEmitter createEmitter (String user) {
-        SseEmitter emitter = subscriptions.get(user);
+        SseEmitter emitter = new SseEmitter(0L);
         subscriptions.put(user, emitter);
         emitter.onCompletion(() -> subscriptions.remove(user));
         emitter.onTimeout(() -> subscriptions.remove(user));
