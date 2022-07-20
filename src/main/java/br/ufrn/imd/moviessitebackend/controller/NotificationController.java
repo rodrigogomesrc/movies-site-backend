@@ -35,6 +35,7 @@ public class NotificationController {
 
     @PostMapping("/notify")
     public ResponseEntity<String> addNotification(@RequestHeader @RequestBody @RequestAttribute String orionNotification) {
+        System.out.println("Message arrived");
         Gson gson = new Gson();
         OrionNotification orionNotificationObject = gson.fromJson(orionNotification, OrionNotification.class);
         String movieId = orionNotificationObject.getContextResponses().get(0).getContextElement().getId();
