@@ -15,7 +15,7 @@ public class SubscriptionService {
         if (subscriptionsByGenre.containsKey(genre)) {
             subscriptionsByGenre.get(genre).add(user);
         } else {
-            ArrayList<String> users = new ArrayList<String>();
+            ArrayList<String> users = new ArrayList<>();
             users.add(user);
             subscriptionsByGenre.put(genre, users);
         }

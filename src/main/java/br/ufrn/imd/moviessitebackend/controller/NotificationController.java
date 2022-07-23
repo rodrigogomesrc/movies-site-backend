@@ -3,9 +3,7 @@ package br.ufrn.imd.moviessitebackend.controller;
 import br.ufrn.imd.moviessitebackend.model.DTO.MovieDTO;
 import br.ufrn.imd.moviessitebackend.model.orion.OrionNotification;
 import br.ufrn.imd.moviessitebackend.service.NotificationService;
-import com.fasterxml.jackson.core.JsonFactory;
 import com.google.gson.Gson;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +11,6 @@ import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 @RestController
 public class NotificationController {
@@ -23,7 +20,6 @@ public class NotificationController {
 
     @GetMapping("/notifications/{user}")
     public ArrayList<MovieDTO> getNotifications(@PathVariable("user") String user) {
-        System.out.println("route to get notifications for user " + user);
         return notificationService.getNotifications(user);
     }
 
@@ -35,10 +31,8 @@ public class NotificationController {
 
     @PostMapping("/notify")
     public ResponseEntity<String> addNotification(@RequestHeader @RequestBody @RequestAttribute String orionNotification) {
-        System.out.println("Message arrived");
         Gson gson = new Gson();
         OrionNotification orionNotificationObject = gson.fromJson(orionNotification, OrionNotification.class);
-        String movieId = orionNotificationObject.getContextResponses().get(0).getContextElement().getId();
         String movieExibitionDate = orionNotificationObject.getContextResponses().get(0).getContextElement().getAttributes().get(2).getValue();
         String movieGenre = orionNotificationObject.getContextResponses().get(0).getContextElement().getAttributes().get(1).getValue();
         String movieTitle = orionNotificationObject.getContextResponses().get(0).getContextElement().getAttributes().get(0).getValue();
